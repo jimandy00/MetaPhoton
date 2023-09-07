@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerRot : MonoBehaviour
+public class PlayerRot : MonoBehaviourPun
 {
     float speed = 200f;
 
@@ -16,12 +17,26 @@ public class PlayerRot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        // 내가 생성한 player의 카메라만 봄
+        if (photonView.IsMine) // true면 내가 생성.
+        {
+            // cam.gameObject.SetActive(true);
+            cam.GetChild(0).gameObject.SetActive(true);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        // 내것이 아닐때 함수를 나가자
+        if (photonView.IsMine == false)
+        {
+            return;
+        }
+
+        // 만약 마우스 커서가 활성화 되어있으면 함수를 나가자
+        if(Cursor.visible == true) { return; }
+        
         // 마우스 움직임따라 플레이어를 좌우 회전
         // 카메라를 위아래 회전
 
